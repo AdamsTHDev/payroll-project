@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileFormat fileName="" fileType="xls" locale="US">
+	<DataSet description="compStaffAcct">
+	
+		<!-- Company Acct -->
+		<DataSheet sheetName="" sheetIndex="0">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="compAccName"/>
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="accNo" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="initialCode" />
+<!-- 				<DataCell row="1" column="K" dataType="DATE" dataFormat="dd/MM/yyyy" fieldName="launchDate" /> -->
+		
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+	
+		<!-- Staff Info -->
+		<DataSheet sheetName="" sheetIndex="1">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="company" autoTrim="TRUE" />
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="dept" autoTrim="TRUE" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="name" autoTrim="TRUE" />
+				<DataCell row="1" column="D" dataType="TEXT" fieldName="surname" autoTrim="TRUE" />
+				<DataCell row="1" column="E" dataType="TEXT" fieldName="address1" autoTrim="TRUE" />
+				<DataCell row="1" column="F" dataType="TEXT" fieldName="address2" autoTrim="TRUE" />
+				<DataCell row="1" column="G" dataType="TEXT" fieldName="address3" autoTrim="TRUE" />
+				<DataCell row="1" column="H" dataType="TEXT" fieldName="address4" autoTrim="TRUE" />
+				<DataCell row="1" column="I" dataType="TEXT" fieldName="bank" autoTrim="TRUE" />
+				<DataCell row="1" column="J" dataType="TEXT" fieldName="bankAccNo" autoTrim="TRUE" />
+				<DataCell row="1" column="K" dataType="TEXT" fieldName="citizenId" autoTrim="TRUE" />
+				
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+	
+		<!-- Supplier Info -->
+		<DataSheet sheetName="" sheetIndex="2">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="whtName" autoTrim="TRUE" />
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="whtAddress1" autoTrim="TRUE" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="whtAddress2" autoTrim="TRUE" />
+				<DataCell row="1" column="D" dataType="TEXT" fieldName="whtAddress3" autoTrim="TRUE" />
+				<DataCell row="1" column="E" dataType="TEXT" fieldName="whtAddress4" autoTrim="TRUE" />
+				<DataCell row="1" column="F" dataType="TEXT" fieldName="whtTaxId" autoTrim="TRUE" />
+				<DataCell row="1" column="G" dataType="TEXT" fieldName="pnd" autoTrim="TRUE" />
+				
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+	
+		<!-- Ordering Party -->
+		<DataSheet sheetName="" sheetIndex="3">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="type" autoTrim="TRUE" />
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="orderingPartyName" autoTrim="TRUE" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="orderingPartyValue" autoTrim="TRUE" />
+				
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+	
+		<!-- Dept -->
+		<DataSheet sheetName="" sheetIndex="4">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="company" autoTrim="TRUE" />
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="dept" autoTrim="TRUE" />
+				
+<!-- 				<DataCell row="1" column="K" dataType="DATE" dataFormat="dd/MM/yyyy" fieldName="launchDate" /> -->
+		
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+	
+		<!-- Bank -->
+		<DataSheet sheetName="" sheetIndex="5">
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="100">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="bankName" autoTrim="TRUE" />
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="bankCode" autoTrim="TRUE" />
+				<DataCell row="1" column="C" dataType="TEXT" fieldName="branchCode" autoTrim="TRUE" />
+				<DataCell row="1" column="D" dataType="TEXT" fieldName="initialCode" autoTrim="TRUE" />
+				
+<!-- 				<DataCell row="1" column="K" dataType="DATE" dataFormat="dd/MM/yyyy" fieldName="launchDate" /> -->
+		
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+			</DataRecord>
+		</DataSheet>
+		
+	</DataSet>
+</FileFormat>

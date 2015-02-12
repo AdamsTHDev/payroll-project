@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FileFormat fileName="" fileType="xls" locale="US">
+	<DataSet description="paramList">
+		<DataSheet sheetName="" sheetIndex="0">
+
+			<DataRecord listSourceName="dataList" beginRow="2" endRow="999">
+				
+				<DataCell row="1" column="A" dataType="TEXT" fieldName="param"/>
+				<DataCell row="1" column="B" dataType="TEXT" fieldName="value" />
+<!-- 				<DataCell row="1" column="K" dataType="DATE" dataFormat="dd/MM/yyyy" fieldName="launchDate" /> -->
+		
+				<EndRecordCondition column="A" comparator="BLANK" checkValue="" />
+				
+			</DataRecord>
+		</DataSheet>
+		
+	</DataSet>
+</FileFormat>

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Built-By: patawee.cha
+Created-By: Apache Maven
+Build-Jdk: 1.8.0_11
+Main-Class: com.adms.pvcon.app.PVConverterApp
+Class-Path: .
+
