@@ -68,7 +68,8 @@ public class PVConverterApp extends JDialog {
 			}
 			
 		} catch (Exception e) {
-			log.error("ERROR!!! => ", e);
+//			e.printStackTrace();
+			log.error("ERROR!!! => " + e.getMessage(), e);
 		} finally {
 			try {
 				is.close();
@@ -109,7 +110,8 @@ public class PVConverterApp extends JDialog {
 				}
 				
 			} catch (Exception e) {
-				log.error("ERROR!!! => ", e);
+//				e.printStackTrace();
+				log.error("ERROR!!! => " + e.getMessage(), e);
 			}
 		}
 		
