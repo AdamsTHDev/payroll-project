@@ -17,6 +17,11 @@ public class GetResourceUtil {
 			InputStream is = null;
 			try {
 				property = new Properties();
+				
+//				File jarPath = new File(GetResourceUtil.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+//				System.out.println("jar location: " + jarPath.getParent());
+//				String propPath = jarPath.getParentFile().getAbsolutePath();
+//				is = new FileInputStream(new File(propPath + "/config.properties"));
 				is = getContextResourceAsStream("config.properties");
 				property.load(is);
 			} catch(Exception e) {

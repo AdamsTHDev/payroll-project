@@ -33,10 +33,13 @@ public class PayrollServiceImpl extends PVConverterAbstarct {
 		initCompanyStaffInfo();
 		
 		Date valueDate = sheet.getRow(8).getCell(9, Row.CREATE_NULL_AS_BLANK).getDateCellValue();
-		String compname = sheet.getRow(0).getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+		String compname = sheet.getRow(0).getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 		String[] debtAcc = super.companyAccMap.get(compname);
 		
-		if(debtAcc == null) throw new Exception("!!!! NULL POINTER !!!!! ==> Cannot find account no. for " + compname);
+		if(debtAcc == null) {
+//			System.err.println("Cannot find account No. for " + compname);
+			throw new Exception("!!!! NULL POINTER !!!!! ==> Cannot find account no. for " + compname);
+		}
 		
 		String transactionRefNo = sheet.getRow(6).getCell(9, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 		return processContents(payrollDataList(sheet), debtAcc, valueDate, transactionRefNo);
@@ -113,7 +116,10 @@ public class PayrollServiceImpl extends PVConverterAbstarct {
 				if(!isFound) nameNotFound.add(name);
 			} 
 		}
-		if(nameNotFound.size() > 0) throw new Exception("Name not found in Base data: " + Arrays.toString(nameNotFound.toArray()));
+		if(nameNotFound.size() > 0) {
+//			System.err.println("Name not found in Base Data: " + Arrays.toString(nameNotFound.toArray()));
+			throw new Exception("Name not found in Base data: " + Arrays.toString(nameNotFound.toArray()));
+		}
 		return amtByNameMap;
 	}
 	

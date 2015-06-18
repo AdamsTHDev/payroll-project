@@ -10,11 +10,13 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellReference;
 
 import com.adms.pvcon.enums.ETaxType;
 import com.adms.pvcon.object.VendorInfo;
 import com.adms.pvcon.service.abstracts.PVConverterAbstarct;
 import com.adms.pvcon.util.FileUtil;
+import com.adms.pvcon.util.GetResourceUtil;
 
 /**
  * This service is for Supplier (pay by check)
@@ -36,11 +38,13 @@ public class SupplierServiceImpl extends PVConverterAbstarct {
 		initCompanyStaffInfo();
 		
 		Date valueDate = sheet.getRow(8).getCell(9, Row.CREATE_NULL_AS_BLANK).getDateCellValue();
-//		String 
-		String compname = sheet.getRow(0).getCell(2, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+		String compname = sheet.getRow(0).getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 		String[] debtAcc = companyAccMap.get(compname);
 		
-		if(debtAcc == null) throw new Exception("!!!! NULL POINTER !!!!! ==> Cannot find account no. for " + compname);
+		if(debtAcc == null) {
+//			System.err.println("Cannot find account no. for " + compname);
+			throw new Exception("!!!! NULL POINTER !!!!! ==> Cannot find account no. for " + compname);
+		}
 		
 		String transactionRefNo = sheet.getRow(6).getCell(9, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 		
@@ -53,12 +57,16 @@ public class SupplierServiceImpl extends PVConverterAbstarct {
 		return FileUtil.getInstance().writeout(file, contents, encodeType);
 	}
 	
+	@SuppressWarnings("unused")
 	private void invoiceValidation(BigDecimal paymentAmt, BigDecimal invoiceAmt, BigDecimal whtAmt) throws Exception {
-		if(paymentAmt.equals(invoiceAmt.subtract(whtAmt))) return; else throw new Exception("ERROR ==> Payment Amount not equal to Invoice Amount minus WHT Amount: " + paymentAmt + " != " + invoiceAmt + " - " + whtAmt);
+		if(paymentAmt.equals(invoiceAmt.subtract(whtAmt))) return; else {
+//			System.err.println("ERROR ==> Payment Amount not equal to Invoice Amount minus WHT Amount: " + paymentAmt + " != " + invoiceAmt + " - " + whtAmt);
+			throw new Exception("ERROR ==> Payment Amount not equal to Invoice Amount minus WHT Amount: " + paymentAmt + " != " + invoiceAmt + " - " + whtAmt);
+		}
 	}
 	
 	private StringBuffer processContents(String[] debtAcc, Date valueDate, String transactionRefNo) throws Exception {
-		final int lineLenght = 226;
+		final int lineLength = 226;
 		final String inv = "INV@";
 		final String wht = "WHT";
 		final Double vat7 = 0.07D;
@@ -81,10 +89,14 @@ public class SupplierServiceImpl extends PVConverterAbstarct {
 			BigDecimal paymentAmt = convertTo2Digits(paymentVal);
 			BigDecimal whtAmt = convertTo2Digits(whtTaxVal);
 			
-			invoiceValidation(paymentAmt, invoiceAmt, whtAmt);
+//			invoiceValidation(paymentAmt, invoiceAmt, whtAmt);
 			
 			VendorInfo vendorInfo = supplierInfoMap.get(name);
-			for(int i = 0; i < lineLenght; i++) {
+			if(vendorInfo == null) {
+				throw new Exception("Not found: " + name + " in base data");
+			}
+			
+			for(int i = 0; i < lineLength; i++) {
 				switch(i) {
 				case 0	: contents.append(paramValueMap.get("PRODUCT_CODE_PLC")); break; // hardcode
 				case 2	: contents.append(paramValueMap.get("COUNTRY_CODE_TH")); break; // hardcode
@@ -162,7 +174,8 @@ public class SupplierServiceImpl extends PVConverterAbstarct {
 						.concat(StringUtils.rightPad(Integer.valueOf(ins[1]) > 0 ? ins[1] : "", 2, CHAR_ZERO));
 				
 				Double whtAmtD = payment.sumForWhtTaxMap.get(tax) * tax;
-				String[] whts = String.valueOf(whtAmtD.doubleValue()).split("\\.");
+				String[] whts = String.valueOf(new BigDecimal(whtAmtD).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()).split("\\.");
+				
 				String whtAmtPerTax = StringUtils.leftPad(whts[0], 15, CHAR_ZERO)
 						.concat(StringUtils.rightPad(Integer.valueOf(whts[1]) > 0 ? whts[1] : "", 2, CHAR_ZERO));
 				
@@ -191,9 +204,9 @@ public class SupplierServiceImpl extends PVConverterAbstarct {
 		
 		final String check = "AMT (THB)";
 		
-		final int vatCol = 21;
-		final int whtTaxCol = 22;
-		final int amtCol = 10;
+		final int vatCol = CellReference.convertColStringToIndex(GetResourceUtil.getInstance().getConfigValue("excel.vat.column"));
+		final int whtTaxCol = CellReference.convertColStringToIndex(GetResourceUtil.getInstance().getConfigValue("excel.wht.column"));
+		final int amtCol = CellReference.convertColStringToIndex("K");
 		
 //		final String invoiceAmt = "Total Amount (THB)";
 //		final String withholdTax = "Withholding Tax";

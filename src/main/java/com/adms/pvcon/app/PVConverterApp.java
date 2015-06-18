@@ -78,6 +78,21 @@ public class PVConverterApp extends JDialog {
 		log.info("End Converting ==> " + new Date());
 	}
 	
+	private static boolean sheetValidation(Sheet sheet) {
+		boolean flag = false;
+		try {
+			String head = sheet.getRow(0).getCell(0, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+			if(StringUtils.isNoneBlank(head) 
+					&& (head.toUpperCase().contains("AEGON")
+							|| head.toUpperCase().contains("ADMS"))) {
+				flag = true;
+			}
+		} catch(Exception e) {
+			
+		}
+		return flag;
+	}
+	
 	private static void process(Workbook wb, String fileName) {
 		StringBuffer strbuffPTP = new StringBuffer();
 		StringBuffer strbuffPLC = new StringBuffer();
@@ -86,15 +101,16 @@ public class PVConverterApp extends JDialog {
 			Sheet sheet = wb.getSheetAt(i);
 			String sheetName = sheet.getSheetName().trim();
 			
-			if(!StringUtils.isNumeric(sheetName)) continue;
+			if(!sheetValidation(sheet)) continue;
+//			if(!StringUtils.isNumeric(sheetName)) continue;
 			log.info("PROCESS.... Sheet:" + sheetName);
 //			System.out.println("PROCESS.... Sheet:" + sheetName);
 			
 			Row row = sheet.getRow(6);
 			Cell cell = row.getCell(2, Row.CREATE_NULL_AS_BLANK);
 			String payto = cell.getStringCellValue();
-			
-			if(payto.toLowerCase().contains("payroll")) continue; //skip if it is payroll
+			log.debug("payto: " + payto);
+//			if(payto.toLowerCase().contains("payroll")) continue; //skip if it is payroll
 			
 			PvConverterService converter = PvConverterFactory.getService(payto);
 			try {
@@ -116,13 +132,23 @@ public class PVConverterApp extends JDialog {
 		}
 		
 		try {
-			write(new PayrollServiceImpl(), strbuffPLC, fileName);
+			log.debug("PLC Text Length: " + strbuffPLC.length());
+			if(strbuffPLC.length() > 0) {
+				write(new PayrollServiceImpl(), strbuffPLC, fileName);
+			} else {
+				log.debug("Not write file, because no text data");
+			}
 		} catch(Exception e) {
 			log.error("Error while writing file", e);
 		}
 		
 		try {
-			write(new SupplierServiceImpl(), strbuffPTP, fileName);
+			log.debug("PTP Text Length: " + strbuffPTP.length());
+			if(strbuffPTP.length() > 0) {
+				write(new SupplierServiceImpl(), strbuffPTP, fileName);
+			} else {
+				log.debug("Not write file, because no text data");
+			}
 		} catch(Exception e) {
 			log.error("Error while writing file", e);
 		}
@@ -151,8 +177,10 @@ public class PVConverterApp extends JDialog {
 		}
 //		replace yyyyMMdd to date
 		fileName = fileName.replace(strDateFormat, sdf.format(new Date()));
-		fileName = fileName.substring(0, fileName.indexOf(txtEx) - 1) 
-				+ "_" + xlsName.replace(".xls", "") + "_" 
+		fileName = fileName.substring(0, fileName.indexOf(txtEx)) 
+				+ "_" 
+				+ xlsName.replace(".xls", "") 
+//				+ "_" 
 				+ fileName.substring(fileName.indexOf(txtEx), fileName.length());
 		
 		

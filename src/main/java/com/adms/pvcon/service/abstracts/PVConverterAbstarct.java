@@ -1,6 +1,5 @@
 package com.adms.pvcon.service.abstracts;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,9 +30,9 @@ public abstract class PVConverterAbstarct implements PvConverterService {
 	
 	protected void initParamValue() throws Exception {
 		paramValueMap = new HashMap<>();
-		
+			
 		InputStream formatStream = GetResourceUtil.getInstance().getContextResourceAsStream(EFileFormat.PARAM_VALUE_FORMAT.getValue());
-		InputStream xlsStream = new FileInputStream(GetResourceUtil.getInstance().getConfigValue("cfg.file.param.value"));
+		InputStream xlsStream = GetResourceUtil.getInstance().getContextResourceAsStream(GetResourceUtil.getInstance().getConfigValue("cfg.file.param.value"));
 		
 		ExcelFormat ef = new ExcelFormat(formatStream);
 		DataHolder wbHolder = ef.readExcel(xlsStream);
@@ -52,7 +51,7 @@ public abstract class PVConverterAbstarct implements PvConverterService {
 	protected void initCompanyStaffInfo() throws Exception {
 		InputStream formatStream = GetResourceUtil.getInstance().getContextResourceAsStream(EFileFormat.COMPANY_AND_STAFF_ACCT_FORMAT.getValue());
 		ExcelFormat ef = new ExcelFormat(formatStream);
-		InputStream xlsStream = new FileInputStream(GetResourceUtil.getInstance().getConfigValue("cfg.file.company.staff.acct"));
+		InputStream xlsStream = GetResourceUtil.getInstance().getContextResourceAsStream(GetResourceUtil.getInstance().getConfigValue("cfg.file.company.staff.acct"));
 		DataHolder wbCompanyStaff = ef.readExcel(xlsStream);
 		
 //		Company Account Sheet
